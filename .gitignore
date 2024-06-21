@@ -1,0 +1,5 @@
+# IDE
+.vscode/
+
+# python execution
+**/__pycache__/*
