@@ -85,36 +85,39 @@ def all_factors_for(n: int) -> List[int]:
     return all_factors
 
 
-def cancel_common_factors(a: List[int], b: List[int]) -> Tuple[List[int], List[int]]:
-    ai, bi = 0, 0
-    a.sort()
-    b.sort()
-    newa = []
-    newb = []
-    while ai < len(a) and bi < len(b):
+def cancel_common_factors(a_prime_factors: List[int], b_prime_factors: List[int]) -> Tuple[List[int], List[int]]:
+    a_index, b_index = 0, 0
+    a_prime_factors.sort()
+    b_prime_factors.sort()
+    new_a = []
+    new_b = []
+    while a_index < len(a_prime_factors) and b_index < len(b_prime_factors):
         # cancelled
-        if a[ai] == b[bi]:
-            ai += 1
-            bi += 1
+        if a_prime_factors[a_index] == b_prime_factors[b_index]:
+            a_index += 1
+            b_index += 1
             continue
         # if a>b then add b and advance b track
-        if a[ai] > b[bi]:
-            newb.append(b[bi])
-            bi += 1
+        if a_prime_factors[a_index] > b_prime_factors[b_index]:
+            new_b.append(b_prime_factors[b_index])
+            b_index += 1
             continue
         # if a<b then add a and advance a track
-        if a[ai] < b[bi]:
-            newa.append(a[ai])
-            ai += 1
+        if a_prime_factors[a_index] < b_prime_factors[b_index]:
+            new_a.append(a_prime_factors[a_index])
+            a_index += 1
             continue
     # extend anything that was skipped because other finished first
-    newa.extend(a[ai:])
-    newb.extend(b[bi:])
-    return newa, newb
+    new_a.extend(a_prime_factors[a_index:])
+    new_b.extend(b_prime_factors[b_index:])
+    return new_a, new_b
 
 
 def simplify_fraction(numerator: int, denominator: int) -> Tuple[int, int]:
+    # find the prime factors for numerator/denominator
     npf, dpf = prime_factors_for(numerator), prime_factors_for(denominator)
+    # factors that are not common between them -- ie will generate simplified fraction values
     nsf, dsf = cancel_common_factors(npf, dpf)
+    # the actuals implified fraction values, rather than the prime factors
     ns, ds = math.prod(nsf), math.prod(dsf)
     return ns, ds

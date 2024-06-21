@@ -1009,13 +1009,13 @@ def problem_37():
     accumulator = 0
     prime_lookup = set(FOUND_PRIMES)
     # all digits
-    pi = 3  # skipping 2,3,5,7
+    prime_index = 3  # skipping 2,3,5,7
     while counter < 11:
-        pi += 1
-        while pi >= len(FOUND_PRIMES):
+        prime_index += 1
+        while prime_index >= len(FOUND_PRIMES):
             gen_next_prime()
             prime_lookup.add(FOUND_PRIMES[-1])
-        p = FOUND_PRIMES[pi]
+        p = FOUND_PRIMES[prime_index]
         range_ = range(1, math.floor(math.log10(p)) + 1)
         if all(p % (10**i) in prime_lookup and p // (10**i) in prime_lookup for i in range_):
             counter += 1
